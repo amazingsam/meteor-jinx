@@ -2,6 +2,7 @@ module.exports = ->
 
   APP_ROOT = ""
 
+  # No need for a World, when we can have an Universe.
   Jinx = require(APP_ROOT + '/lib/jinx.coffee')
 
   @Given /^a default structure is defined$/, (callback) ->
@@ -30,5 +31,4 @@ module.exports = ->
   @Then /^the custom directory structure should be generated$/, (callback) ->
     myj = Jinx.jloadStructure('structure-sm')
     Jinx.jgenerateWorkspace(myj)
-
     callback()

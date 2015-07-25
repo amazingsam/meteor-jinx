@@ -1,5 +1,7 @@
 module.exports =
 
+  # Easify the life with shorthands
+  
   mkdir: (path, root) ->
     fs = require('fs')
     folders = path.split('/')
@@ -17,12 +19,13 @@ module.exports =
 
   jlog: (message) ->
     console.log("#{message}")
-    # log this somewhere
 
   jdefault: ->
     jextensions = require('./jinx-ext')
     if jextensions.loadJinxExtenstion("test")
       @jout("Plugins OK")
+
+  # Logic that actually do things.
 
   jgenerateWorkspace: (workspace) ->
     @jout("Creating #{workspace.name}...")
