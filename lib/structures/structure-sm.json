@@ -1,0 +1,11 @@
+{
+  "name" : "structure-sm",
+  "description" : "a structure for small projects.",
+  "version" : "0.0.1",
+  "items" : [
+    "test/private",
+    "test/client/collections",
+    "test/server/collections",
+    "test/public"
+  ]
+}
