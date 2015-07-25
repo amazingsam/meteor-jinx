@@ -1,6 +1,6 @@
 module.exports = ->
 
-  APP_ROOT = "/Users/sam/Ontwikkeling/liontwo/meteor-jinx"
+  APP_ROOT = ""
 
   Jinx = require(APP_ROOT + '/lib/jinx.coffee')
 
