@@ -2,8 +2,14 @@ module.exports = ->
 
   APP_ROOT = ""
 
-  # No need for a World, when we can have an Universe.
   Jinx = require(APP_ROOT + '/lib/jinx.coffee')
+
+  @Given /^I have a Meteor Workspace$/, (callback) ->
+    if(Jinx.jcheckForMeteor())
+      Jinx.jout("Meteor present")
+    if(Jinx.jcheckForJinx())
+      Jinx.jout("Jinx present")
+    callback()
 
   @Given /^a default structure is defined$/, (callback) ->
     myj = Jinx.jloadStructure('structure-sm')
@@ -31,4 +37,9 @@ module.exports = ->
   @Then /^the custom directory structure should be generated$/, (callback) ->
     myj = Jinx.jloadStructure('structure-sm')
     Jinx.jgenerateWorkspace(myj)
+    callback()
+
+  @Then /^the default files should be generated$/, (callback) ->
+    myj = Jinx.jloadStructure('structure-sm')
+    Jinx.jgenerateDefaultFiles(myj)
     callback()

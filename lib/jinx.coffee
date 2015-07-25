@@ -1,7 +1,23 @@
 module.exports =
 
   # Easify the life with shorthands
-  
+
+  exists: (path) ->
+    fs = require('fs')
+    try
+      file = fs.openSync(path, 'a');
+      return true
+    catch e
+      return false
+
+  cp: (source, target) ->
+    fs = require('fs')
+    try
+      fs.writeFileSync("#{target}", fs.readFileSync("lib/recipes/#{source}"))
+      return true
+    catch e
+      return false
+
   mkdir: (path, root) ->
     fs = require('fs')
     folders = path.split('/')
@@ -15,7 +31,7 @@ module.exports =
     !folders.length or @mkdir(folders.join('/'), root)
 
   jout: (message) ->
-    console.log("#{message}")
+    #console.log("#{message}")
 
   jlog: (message) ->
     console.log("#{message}")
@@ -25,14 +41,29 @@ module.exports =
     if jextensions.loadJinxExtenstion("test")
       @jout("Plugins OK")
 
+  jshell: (command) ->
+    jshell = require('child_process').exec
+    jshell(command)
+
   # Logic that actually do things.
+
+  jcheckForMeteor: ->
+    status = @exists('.meteor/versions')
+    return status
+
+  jcheckForJinx: ->
+    status = @exists('.jinx/versions')
+    return status
 
   jgenerateWorkspace: (workspace) ->
     @jout("Creating #{workspace.name}...")
 
-    for structureItem in workspace.items
+    for structureItem in workspace.folders
       @jout(structureItem)
       @mkdir("#{structureItem}")
+
+    @mkdir(".jinx")
+    @cp("core/versions", ".jinx/versions")
 
   jloadStructure: (structureId) ->
     try
@@ -40,6 +71,16 @@ module.exports =
     catch e
 
     return jstruct
+
+  jgenerateDefaultFiles: (workspace) ->
+    fs = require('fs')
+
+    for source, target of workspace.files
+      @jout("#{target} from lib/recipes/#{source}")
+      fs.writeFileSync("#{target}", fs.readFileSync("lib/recipes/#{source}"))
+
+  jMeteorCreate: (projectfolder) ->
+    @jshell("meteor create #{projectfolder}")
 
   # Emulates commandline usage
   jinxMain: (args) ->

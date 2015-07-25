@@ -2,10 +2,17 @@
   "name" : "structure-sm",
   "description" : "a structure for small projects.",
   "version" : "0.0.1",
-  "items" : [
+  "folders" : [
     "test/private",
     "test/client/collections",
     "test/server/collections",
     "test/public"
-  ]
+  ],
+  "files" : {
+    "core/private.js" : "test/client/private.js",
+    "scripts/hello.js" : "test/client/hello.js",
+    "stylesheets/hello.css" : "test/client/hello.css",
+    "templates/hello.html" : "test/server/hello.html"
+  }
+
 }
