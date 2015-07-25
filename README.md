@@ -13,10 +13,10 @@ A simple toolbox for Meteor, made in CoffeeScript, containing:
 - **a command line interface** (CLI)
 - **Atom.io integration**
 
-This is not an official Meteor supported package. But this package surely supports [Meteor](https://www.meteor.com).
+This is not an official Meteor supported package. But this package surely supports [Meteor](https://www.meteor.com). Jinx toolbox needs Meteor to be installed. 
 
 ## About
-The Jinx toolbox is merely something that can easy you into development in Meteor if you come from the world of generators and being lazy. Its current version is **0.0.1**, so don't bother looking at it.
+The Jinx toolbox is merely something that can ease you into development in Meteor if you come from the world of generators and being lazy. Its current version is **0.0.1**, so don't bother looking at it.
 
 ## Installation
 It is not even close to try yet. This section is for the future.
