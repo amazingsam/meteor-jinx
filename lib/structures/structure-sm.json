@@ -13,6 +13,9 @@
     "scripts/hello.js" : "test/client/hello.js",
     "stylesheets/hello.css" : "test/client/hello.css",
     "templates/hello.html" : "test/server/hello.html"
+  },
+  "packages" : {
+    
   }
 
 }

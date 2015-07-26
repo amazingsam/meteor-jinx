@@ -1,0 +1,20 @@
+{
+  "default" : {
+    "debug" : true,
+    "errors" : true,
+    "version" : "0.0.6"
+  },
+
+  "development" : {
+    "target" : "build/development"
+  },
+
+  "testing" : {
+    "target" : "build/testing"
+  },
+
+  "production" : {
+    "target" : "build/production"
+  }
+
+}

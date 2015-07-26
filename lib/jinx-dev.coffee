@@ -1,0 +1,2 @@
+
+Jinx = require('./jinx-core')
