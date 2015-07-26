@@ -1,30 +1,44 @@
-Feature: Provide command line arguments
-
-As a Meteorian
-I want to be able to provide arguments
-So I have control when using Jinx Meteor
-
-  Background:
-    Given I start Jinx
-
-  Scenario:
-    When I provide arguments
-    Then Jinx should return a result
-
-  Scenario:
-    When I provide non-existing arguments
-    Then Jinx should return the usage content
-
-  Scenario:
-    When I provide not enough arguments
-    Then Jinx should return an error message and the usage content
-
-
-#Feature: Execute Shellcommands
+#Feature: Accept Jinx arguments
 
 #As a Meteorian
-#I want to execute my shell commands
-#So I can create a child process
+#I want to be able to provide arguments
+#So I have control when using Jinx Meteor
+
+#  Background:
+#    Given I start Jinx
+
+#  Scenario:
+#    When I provide arguments
+#    Then Jinx should return a result
+
+#  Scenario:
+#    When I provide non-existing arguments
+#    Then Jinx should return the usage content
+
+#  Scenario:
+#    When I provide not enough arguments
+#    Then Jinx should return an error message and the usage content
+
+Feature: Execute Jinx Commands
+
+As a Meteorian
+I want to execute my commands using my arguments
+So my commands are mapped as actions
+
+  Scenario:
+    When I invoke a task
+    And provide a valid recipe
+    Then Jinx should execute this task
+
+  Scenario:
+    When I invoke a generator
+    And provide a valid recipe
+    Then Jinx should execute this generator
+
+  Scenario:
+    When I invoke a rollback
+    And I provide a valid identifier
+    Then Jinx should remove all references with this identifier
 
 
 #Feature: Initialize a default Jinx Meteor Workspace

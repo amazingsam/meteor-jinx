@@ -58,12 +58,13 @@ module.exports =
   # Jinx Meteor Operations
 
   usage: ->
-    @jout "usage: jinx <generate|destroy> <recipe> <custom name> <target>"
+    @jout "usage: jinx <generate|destroy> <recipe> <identifier> <target>"
 
   version: ->
     return "#{jinxConfig.default.version}"
 
   start: (args) ->
+
     if(args?)
       for arg in args
         jinxUserparams.push(arg)
@@ -127,23 +128,99 @@ module.exports =
         return false
     else
       if isValidTask
-        return true
+        if isValidRecipe
+          return true
+        else
+          @jout "the argument #{jinxUserparams[3]} is not a valid recipe. "
+          @usage()
+          return false
       else
         @jout "the argument #{jinxUserparams[2]} is not a valid command."
         @usage()
         return false
 
+  execute: ->
+    runGenerator = false
+    runTask = false
 
+    options = {}
 
-  execute: (commands) ->
+    for task, tcode of jinxCommands.tasks
+      if task == jinxUserparams[2]
+        options['task'] = tcode
+        runTask = true
 
+    for generator, gcode of jinxCommands.generators
+      if generator == jinxUserparams[2]
+        options['generator'] = gcode
+        runGenerator = true
+
+    for recipe, rcode of jinxCommands.recipes
+      if recipe == jinxUserparams[3]
+        options['recipe'] = rcode
+
+    if runGenerator
+      @executeGenerator(options)
+
+    if runTask
+      @executeTask(options)
+
+    return true
+
+  parseRecipe: (pocket) ->
+    if pocket['generate']?
+      switch pocket['code']
+        when 500
+          jextensions.createBlazeTemplate(jinxUserparams[4])
+
+    if pocket['destroy']?
+      switch pocket['code']
+        when 500
+          @jout "TODO: undo"
+
+    if pocket['create']?
+      switch pocket['code']
+        when 4001
+          jextensions.createStructure(jinxUserparams[3], jinxUserparams[4])
+
+    if pocket['remove']?
+      switch pocket['code']
+        when 4001
+          @jout "TODO: undo"
+
+  executeGenerator: (options) ->
+    pocket = {}
+    switch options['generator']
+      when 100
+        pocket["generate"] = true
+        pocket["code"] = options['recipe']
+      when 200
+        pocket["destroy"] = true
+        pocket["code"] = options['recipe']
+
+    @parseRecipe(pocket)
+    return true
+
+  executeTask: (options)->
+    pocket = {}
+    switch options['task']
+      when 5000
+        pocket["create"] = true
+        pocket["code"] = options['recipe']
+      when 6000
+        pocket["remove"] = true
+        pocket["code"] = options['recipe']
+
+    @parseRecipe(pocket)
     return true
 
   checkForMeteor: ->
-    return true
+    status = @exists('.meteor/versions')
+    return status
 
   checkForJinx: ->
-    return true
+    status = @exists('.jinx/versions')
+    return status
 
   createJinxMeteorWorkspace: (options) ->
     return true
@@ -152,14 +229,6 @@ module.exports =
 
 
   # Deprecated
-
-  jcheckForMeteor: ->
-    status = @exists('.meteor/versions')
-    return status
-
-  jcheckForJinx: ->
-    status = @exists('.jinx/versions')
-    return status
 
   jgenerateWorkspace: (workspace) ->
     @jout("Creating #{workspace.name}...")

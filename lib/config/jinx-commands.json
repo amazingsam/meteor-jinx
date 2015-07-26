@@ -32,10 +32,21 @@
     "script-private" : 1200,
     "sp" : 1200,
     "collection" : 1300,
-    "cl" : 1300
+    "cl" : 1300,
+    "structure-xs" : 4000,
+    "xs" : 4000,
+    "structure-sm" : 4001,
+    "sm" : 4001,
+    "structure-md" : 4002,
+    "md" : 4002,
+    "structure-lg" : 4003,
+    "lg" : 4003,
+    "structure-xl" : 4004,
+    "xl" : 4004
   },
 
   "tasks" : {
-    "create" : 5000
+    "create" : 5000,
+    "remove" : 6000 
   }
 }
