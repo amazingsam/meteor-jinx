@@ -7,6 +7,7 @@
   },
 
   "recipes" : {
+    "workspace" : 1,
     "blaze" : 500,
     "b" : 500,
     "react" : 600,
@@ -47,6 +48,6 @@
 
   "tasks" : {
     "create" : 5000,
-    "remove" : 6000 
+    "remove" : 6000
   }
 }

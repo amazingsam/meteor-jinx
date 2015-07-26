@@ -19,34 +19,38 @@
 #    When I provide not enough arguments
 #    Then Jinx should return an error message and the usage content
 
-Feature: Execute Jinx Commands
-
-As a Meteorian
-I want to execute my commands using my arguments
-So my commands are mapped as actions
-
-  Scenario:
-    When I invoke a task
-    And provide a valid recipe
-    Then Jinx should execute this task
-
-  Scenario:
-    When I invoke a generator
-    And provide a valid recipe
-    Then Jinx should execute this generator
-
-  Scenario:
-    When I invoke a rollback
-    And I provide a valid identifier
-    Then Jinx should remove all references with this identifier
-
-
-#Feature: Initialize a default Jinx Meteor Workspace
+#Feature: Execute Jinx Commands
 
 #As a Meteorian
-#I want to create a default Jinx Meteor Workspace
-#So I can start developing Meteor solutions
+#I want to execute my commands using my arguments
+#So my commands are mapped as actions
 
+#  Scenario:
+#    When I invoke a task
+#    And provide a valid recipe
+#    Then Jinx should execute this task
+
+#  Scenario:
+#    When I invoke a generator
+#    And provide a valid recipe
+#    Then Jinx should execute this generator
+
+#  Scenario:
+#    When I invoke a rollback
+#    And I provide a valid identifier
+#    Then Jinx should remove all references with this identifier
+
+
+Feature: Initialize a default Jinx Meteor Workspace
+
+As a Meteorian
+I want to create a default Jinx Meteor Workspace
+So I can start developing Meteor solutions
+
+  Scenario:
+    When I create a Jinx Meteor Workspace
+    Then Jinx should create a project folder
+    And initialize my Jinx Meteor Workspace
 
 #Feature: Customize my Jinx Meteor Workspace
 

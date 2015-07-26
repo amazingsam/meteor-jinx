@@ -29,6 +29,15 @@ module.exports =
     catch e
       return false
 
+  writefile: (path, data) ->
+    try
+      file = fs.openSync(path, 'w')
+      fs.writeSync(file, data)
+      fs.closeSync(file)
+      return true
+    catch e
+      return false
+
   cp: (source, target) ->
     try
       fs.writeFileSync("#{target}", fs.readFileSync("#{source}"))
@@ -52,16 +61,19 @@ module.exports =
   jshell: (command) ->
     jshell(command)
 
-  cwd: ->
-    return "#{process.cwd()}"
-
   # Jinx Meteor Operations
 
   usage: ->
-    @jout "usage: jinx <generate|destroy> <recipe> <identifier> <target>"
+    @jout "usage: jinx <task|generator> <recipe> <identifier> <target>"
 
   version: ->
     return "#{jinxConfig.default.version}"
+
+  main: ->
+    inDevMode = false
+    @preprocess()
+    @validate()
+    @execute()
 
   start: (args) ->
 
@@ -82,10 +94,12 @@ module.exports =
       userparams = jinxUserparams
     else
       userparams = process.argv
+      jinxUserparams = userparams
 
     if userparams.length <= 4
       @jout "error: not enough arguments."
       @usage()
+      process.exit()
     else
       JinxTask = userparams[2]
       JinxRecipe = userparams[3]
@@ -168,10 +182,16 @@ module.exports =
     return true
 
   parseRecipe: (pocket) ->
+
+    jIdentifier = jinxUserparams[4]
+    jRecipe = jinxUserparams[3]
+    jData = jinxUserparams[6]
+
     if pocket['generate']?
       switch pocket['code']
         when 500
-          jextensions.createBlazeTemplate(jinxUserparams[4])
+          tmpl = jextensions.createBlazeTemplate({ 'name' : jIdentifier })
+          # @writefile("#{jIdentifier}.html", tmpl)
 
     if pocket['destroy']?
       switch pocket['code']
@@ -180,8 +200,20 @@ module.exports =
 
     if pocket['create']?
       switch pocket['code']
+        when 1
+          if @checkForJinx()
+            @jout "Jinx already exists!"
+          else
+            @createJinxMeteorWorkspace({ 'structureId' : jRecipe, 'target' : jIdentifier })
+
         when 4001
-          jextensions.createStructure(jinxUserparams[3], jinxUserparams[4])
+          if @checkForJinx()
+            @jout "Jinx already exists!"
+          else
+            @createJinxMeteorWorkspace({ 'structureId' : jRecipe, 'target' : jIdentifier })
+
+        else
+          @jout "error: invalid recipe"
 
     if pocket['remove']?
       switch pocket['code']
@@ -215,63 +247,42 @@ module.exports =
     return true
 
   checkForMeteor: ->
-    status = @exists('.meteor/versions')
+    status = @exists(".meteor/versions")
     return status
 
   checkForJinx: ->
-    status = @exists('.jinx/versions')
+    status = @exists(".jinx/versions")
     return status
 
   createJinxMeteorWorkspace: (options) ->
-    return true
 
+    targetfolder = ""
 
+    if(options['target']?)
+      targetfolder = options['target']
+      if options['target'] == "."
+        targetfolder = "./"
+      else
+        targetfolder+= "/"
+    else
+      targetfolder = "./"
 
+    workspace = @loadStructure(options['structureId'])
+    @mkdir("#{targetfolder}.jinx")
+    @cp("lib/recipes/core/versions", "#{targetfolder}.jinx/versions")
+    @cp("lib/structures/#{options['structureId']}.json", "#{targetfolder}.jinx/structure.json")
 
-  # Deprecated
-
-  jgenerateWorkspace: (workspace) ->
-    @jout("Creating #{workspace.name}...")
-
-    for structureItem in workspace.folders
-      @jout(structureItem)
-      @mkdir("#{structureItem}")
-
-    @mkdir(".jinx")
-    @cp("core/versions", ".jinx/versions")
-
-  jloadStructure: (structureId) ->
-    try
-      jstruct = require('./structures/' + structureId + '.json')
-    catch e
-
-    return jstruct
-
-  jgenerateDefaultFiles: (workspace) ->
-    fs = require('fs')
+    for folder in workspace.folders
+      @mkdir "#{targetfolder}#{folder}"
 
     for source, target of workspace.files
-      @jout("#{target} from lib/recipes/#{source}")
-      fs.writeFileSync("#{target}", fs.readFileSync("lib/recipes/#{source}"))
+      @cp("lib/recipes/#{source}", "#{targetfolder}#{target}")
 
-  jMeteorCreate: (projectfolder) ->
-    @jshell("meteor create #{projectfolder}")
+    return true
 
-  # Emulates commandline usage
-  jinxMain: (args) ->
-    if args?
+  loadStructure: (structureId) ->
+    try
+      myStructure = require('./structures/' + structureId + '.json')
+    catch e
 
-      switch args[0]
-        when 'new'
-          if /-/i.test(args[1])
-            switch args[1]
-              when '-sm' then @jout "selected small."
-              else @jout "selection unavailable."
-          else
-            @jout "selection unavailable."
-        else @jout "Wrong arguments"
-
-    else
-      @jout("Not enough arguments")
-
-    return
+    return myStructure

@@ -45,48 +45,75 @@ module.exports = ->
 
   # Feature: Execute Jinx Commands
 
-  @When /^I invoke a task$/, (callback) ->
-    Jinx.start(['create', 'structure-sm', 'hello'])
-    Jinx.preprocess()
-    Jinx.validate()
-    Jinx.reset()
-    callback()
+  # @When /^I invoke a task$/, (callback) ->
+  #   Jinx.start(['create', 'structure-sm', 'hello'])
+  #   Jinx.preprocess()
+  #   Jinx.validate()
+  #   Jinx.reset()
+  #   callback()
+  #
+  # @When /^provide a valid recipe$/, (callback) ->
+  #   Jinx.start(['create', 'structure-sm', 'hello'])
+  #   Jinx.preprocess()
+  #   Jinx.validate()
+  #   Jinx.reset()
+  #   callback()
+  #
+  # @Then /^Jinx should execute this task$/, (callback) ->
+  #   Jinx.start(['create', 'structure-sm', 'hello'])
+  #   Jinx.preprocess()
+  #   Jinx.validate()
+  #   Jinx.execute()
+  #   Jinx.reset()
+  #   callback()
+  #
+  # @When /^I invoke a generator$/, (callback) ->
+  #   Jinx.start(['generate', 'blaze', 'mytest'])
+  #   Jinx.preprocess()
+  #   Jinx.validate()
+  #   Jinx.execute()
+  #   Jinx.reset()
+  #   callback()
+  #
+  # @Then /^Jinx should execute this generator$/, (callback) ->
+  #   Jinx.start(['generate', 'blaze', 'mytest'])
+  #   Jinx.preprocess()
+  #   Jinx.validate()
+  #   Jinx.execute()
+  #   Jinx.reset()
+  #   callback()
 
-  @When /^provide a valid recipe$/, (callback) ->
-    Jinx.start(['create', 'structure-sm', 'hello'])
-    Jinx.preprocess()
-    Jinx.validate()
-    Jinx.reset()
-    callback()
+  # @When /^I invoke a rollback$/, (callback) ->
+  #   # Write code here that turns the phrase above into concrete actions
+  #   callback.pending()
+  #
+  # @When /^I provide a valid identifier$/, (callback) ->
+  #   # Write code here that turns the phrase above into concrete actions
+  #   callback.pending()
+  #
+  # @Then /^Jinx should remove all references with this identifier$/, (callback) ->
+  #   # Write code here that turns the phrase above into concrete actions
+  #   callback.pending()
 
-  @Then /^Jinx should execute this task$/, (callback) ->
-    Jinx.start(['create', 'structure-sm', 'hello'])
-    Jinx.preprocess()
-    Jinx.validate()
-    Jinx.execute()
-    Jinx.reset()
-    callback.pending()
+  # Feature: Initialize a default Jinx Meteor Workspace
 
-  @When /^I invoke a generator$/, (callback) ->
-    Jinx.start(['generate', 'blaze', 'hello'])
-    Jinx.preprocess()
-    Jinx.validate()
-    Jinx.execute()
-    Jinx.reset()
-    callback.pending()
+  # @When /^I create a Jinx Meteor Workspace$/, (callback) ->
+  #
+  #   Jinx.start(['create', 'workspace', 'myapp'])
+  #   Jinx.preprocess()
+  #   Jinx.validate()
+  #   Jinx.execute()
+  #   Jinx.reset()
+  #   callback()
+  #
+  # @Then /^Jinx should create a project folder$/, (callback) ->
+  #   Jinx.start(['create', 'workspace', 'myotherapp'])
+  #   Jinx.preprocess()
+  #   Jinx.validate()
+  #   Jinx.execute()
+  #   Jinx.reset()
+  #   callback()
 
-  @Then /^Jinx should execute this generator$/, (callback) ->
-    # Write code here that turns the phrase above into concrete actions
-    callback.pending()
-
-  @When /^I invoke a rollback$/, (callback) ->
-    # Write code here that turns the phrase above into concrete actions
-    callback.pending()
-
-  @When /^I provide a valid identifier$/, (callback) ->
-    # Write code here that turns the phrase above into concrete actions
-    callback.pending()
-
-  @Then /^Jinx should remove all references with this identifier$/, (callback) ->
+  @Then /^initialize my Jinx Meteor Workspace$/, (callback) ->
     # Write code here that turns the phrase above into concrete actions
     callback.pending()
