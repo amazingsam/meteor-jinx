@@ -1,0 +1,41 @@
+{
+  "generators" : {
+    "generate" : 100,
+    "g" : 100,
+    "destroy" : 200,
+    "d" : 200
+  },
+
+  "recipes" : {
+    "blaze" : 500,
+    "b" : 500,
+    "react" : 600,
+    "r" : 600,
+    "stylesheet" : 700,
+    "style" : 700,
+    "css" : 701,
+    "iscript" : 800,
+    "script-isomorphic" : 800,
+    "i" : 800,
+    "html" : 900,
+    "html" : 900,
+    "h" : 900,
+    "page" : 900,
+    "p" : 900,
+    "cscript" : 1000,
+    "script-client" : 1000,
+    "cs" : 1000,
+    "sscript" : 1100,
+    "script-server" : 1100,
+    "ss" : 1100,
+    "pscript" : 1200,
+    "script-private" : 1200,
+    "sp" : 1200,
+    "collection" : 1300,
+    "cl" : 1300
+  },
+
+  "tasks" : {
+    "create" : 5000
+  }
+}

@@ -1,6 +1,8 @@
 # import configuration, dependencies
-
+inDevMode = true
+jinxUserparams = ['nodejs', 'jinx']
 jinxConfig = require('./config/jinx-config.json')
+jinxCommands = require('./config/jinx-commands.json')
 fs = require('fs')
 jextensions = require('./jinx-ext')
 jshell = require('child_process').exec
@@ -55,15 +57,83 @@ module.exports =
 
   # Jinx Meteor Operations
 
+  usage: ->
+    @jout "usage: jinx <generate|destroy> <recipe> <custom name> <target>"
+
   version: ->
     return "#{jinxConfig.default.version}"
 
   start: (args) ->
+    if(args?)
+      for arg in args
+        jinxUserparams.push(arg)
+    else
+      @usage()
+
     return true
 
-  preprocess: (args) ->
-    commands = []
-    return commands
+  reset: ->
+    jinxUserparams = ['nodejs', 'jinx']
+
+  preprocess: ->
+    userparams = []
+    if inDevMode
+      userparams = jinxUserparams
+    else
+      userparams = process.argv
+
+    if userparams.length <= 4
+      @jout "error: not enough arguments."
+      @usage()
+    else
+      JinxTask = userparams[2]
+      JinxRecipe = userparams[3]
+      JinxCustomName = userparams[4]
+      if userparams[5]?
+        JinxTarget = userparams[5]
+      else
+        JinxTarget = ""
+
+      if userparams[6]?
+        JinxOptions = userparams[6]
+      else
+        JinxOptions = ""
+
+    return true
+
+  validate: ->
+    isValidGenerator = false
+    isValidRecipe = false
+    isValidTask = false
+
+    for generator, code of jinxCommands.generators
+      if generator == jinxUserparams[2]
+        isValidGenerator = true
+
+    for recipe, code of jinxCommands.recipes
+      if recipe == jinxUserparams[3]
+        isValidRecipe = true
+
+    for task, code of jinxCommands.tasks
+      if task == jinxUserparams[2]
+        isValidTask = true
+
+    if isValidGenerator
+      if isValidRecipe
+        return true
+      else
+        @jout "the argument #{jinxUserparams[3]} is not a valid recipe. "
+        @usage()
+        return false
+    else
+      if isValidTask
+        return true
+      else
+        @jout "the argument #{jinxUserparams[2]} is not a valid command."
+        @usage()
+        return false
+
+
 
   execute: (commands) ->
 
