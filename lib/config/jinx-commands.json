@@ -43,11 +43,17 @@
     "structure-lg" : 4003,
     "lg" : 4003,
     "structure-xl" : 4004,
-    "xl" : 4004
+    "xl" : 4004,
+    "package" : 400,
+    "pack" : 400,
+    "mup" : 300
   },
 
   "tasks" : {
     "create" : 5000,
-    "remove" : 6000
+    "remove" : 6000,
+    "reset" : 7000,
+    "clean" : 8000,
+    "deploy" : 9000
   }
 }

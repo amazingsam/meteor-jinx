@@ -3,8 +3,7 @@ module.exports =
     console.log("generating Blaze Template...")
     myString = """
     <template name="#{options['name']}">
-      <button>Click Me</button>
-      <p>Sam pressed the button {{#{options['data']}}} times.</p>
+ {{#{options['data']}}}</p>
     </template>
     """
     return myString
