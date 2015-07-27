@@ -97,23 +97,28 @@ module.exports = ->
 
   # Feature: Initialize a default Jinx Meteor Workspace
 
-  # @When /^I create a Jinx Meteor Workspace$/, (callback) ->
-  #
-  #   Jinx.start(['create', 'workspace', 'myapp'])
-  #   Jinx.preprocess()
-  #   Jinx.validate()
-  #   Jinx.execute()
-  #   Jinx.reset()
-  #   callback()
-  #
-  # @Then /^Jinx should create a project folder$/, (callback) ->
-  #   Jinx.start(['create', 'workspace', 'myotherapp'])
-  #   Jinx.preprocess()
-  #   Jinx.validate()
-  #   Jinx.execute()
-  #   Jinx.reset()
-  #   callback()
+  @When /^I create a Jinx Meteor Workspace$/, (callback) ->
+
+    # Jinx.start(['create', 'workspace', 'myapp'])
+    # Jinx.preprocess()
+    # Jinx.validate()
+    # Jinx.execute()
+    # Jinx.reset()
+    callback()
+
+  @Then /^Jinx should create a project folder$/, (callback) ->
+    # Jinx.start(['create', 'workspace', 'myotherapp'])
+    # Jinx.preprocess()
+    # Jinx.validate()
+    # Jinx.execute()
+    # Jinx.reset()
+    callback()
 
   @Then /^initialize my Jinx Meteor Workspace$/, (callback) ->
-    # Write code here that turns the phrase above into concrete actions
+    # Jinx.start(['create', 'workspace', 'myotherapp'])
+    # Jinx.preprocess()
+    # Jinx.validate()
+    # Jinx.execute()
+    Jinx.createMeteorProject({ 'target' : 'myotherapp'})
+    # Jinx.reset()
     callback.pending()

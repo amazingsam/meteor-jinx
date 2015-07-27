@@ -201,12 +201,25 @@ module.exports =
     if pocket['create']?
       switch pocket['code']
         when 1
+          if @checkForMeteor()
+            @jout "Detected Meteor, Jinx will not run a new Meteor task."
+          else
+            @jout "Running Meteor tasks... #{jIdentifier}"
+            @createMeteorProject({ 'target' : jIdentifier})
+
           if @checkForJinx()
             @jout "Jinx already exists!"
           else
             @createJinxMeteorWorkspace({ 'structureId' : jRecipe, 'target' : jIdentifier })
 
+
         when 4001
+          if @checkForMeteor()
+            @jout "Detected Meteor, Jinx will not run a new Meteor task."
+          else
+            @jout "Running Meteor tasks..."
+            @createMeteorProject({ 'target' : jIdentifier})
+
           if @checkForJinx()
             @jout "Jinx already exists!"
           else
@@ -279,6 +292,12 @@ module.exports =
       @cp("lib/recipes/#{source}", "#{targetfolder}#{target}")
 
     return true
+
+  createMeteorProject: (options) ->
+
+    meteortask = "meteor create #{options['target']}"
+    @jout "MT: #{meteortask}"
+    @jshell(meteortask)
 
   loadStructure: (structureId) ->
     try
