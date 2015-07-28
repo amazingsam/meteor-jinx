@@ -5,6 +5,7 @@ jinxConfig = require('./config/jinx-config.json')
 jinxCommands = require('./config/jinx-commands.json')
 fs = require('fs')
 jextensions = require('./jinx-ext')
+Q = require('q')
 jshell = require('child_process').exec
 
 module.exports =
@@ -58,8 +59,8 @@ module.exports =
 
   # Standard System Operations
 
-  jshell: (command) ->
-    jshell(command)
+  #jshell: (command) ->
+  #  jshell(command)
 
   # Jinx Meteor Operations
 
@@ -205,11 +206,8 @@ module.exports =
             @jout "Detected Meteor, Jinx will not run a new Meteor task."
           else
             @jout "Running Meteor tasks... #{jIdentifier}"
-            @createMeteorProject({ 'target' : jIdentifier})
 
-          if @checkForJinx()
-            @jout "Jinx already exists!"
-          else
+            @createMeteorProject({ 'structureId' : jRecipe, 'target' : jIdentifier})
             @createJinxMeteorWorkspace({ 'structureId' : jRecipe, 'target' : jIdentifier })
 
 
@@ -218,12 +216,12 @@ module.exports =
             @jout "Detected Meteor, Jinx will not run a new Meteor task."
           else
             @jout "Running Meteor tasks..."
-            @createMeteorProject({ 'target' : jIdentifier})
+            createMeteorProject({ 'target' : jIdentifier})
 
           if @checkForJinx()
             @jout "Jinx already exists!"
           else
-            @createJinxMeteorWorkspace({ 'structureId' : jRecipe, 'target' : jIdentifier })
+            createJinxMeteorWorkspace({ 'structureId' : jRecipe, 'target' : jIdentifier })
 
         else
           @jout "error: invalid recipe"
@@ -291,13 +289,18 @@ module.exports =
     for source, target of workspace.files
       @cp("lib/recipes/#{source}", "#{targetfolder}#{target}")
 
-    return true
-
   createMeteorProject: (options) ->
-
-    meteortask = "meteor create #{options['target']}"
+    meteortask = "meteor create " + "#{options['target']}"
     @jout "MT: #{meteortask}"
-    @jshell(meteortask)
+
+    jshell meteortask, (error, stdout, stderr) ->
+      console.log 'stdout: ' + stdout
+      console.log 'stderr: ' + stderr
+      if error != null
+        console.log 'exec error: ' + error
+      return
+
+
 
   loadStructure: (structureId) ->
     try

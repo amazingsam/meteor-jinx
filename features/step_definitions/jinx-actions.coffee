@@ -115,10 +115,10 @@ module.exports = ->
     callback()
 
   @Then /^initialize my Jinx Meteor Workspace$/, (callback) ->
-    # Jinx.start(['create', 'workspace', 'myotherapp'])
-    # Jinx.preprocess()
-    # Jinx.validate()
-    # Jinx.execute()
-    Jinx.createMeteorProject({ 'target' : 'myotherapp'})
-    # Jinx.reset()
+    Jinx.start(['create', 'workspace', 'myotherapp'])
+    Jinx.preprocess()
+    Jinx.validate()
+    Jinx.execute()
+    # Jinx.createMeteorProject({ 'target' : 'myotherapp'})
+    Jinx.reset()
     callback.pending()
